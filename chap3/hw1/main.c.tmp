@@ -25,9 +25,9 @@ int main(){
   for(i=1; i<=4; i++){
     for(j=0; j<5-i; j++){
       if(strlen(userstring[j])<strlen(userstring[j+1])){
-        copy(userstring[j+1], tmp);         
-        copy(userstring[j], userstring[j+1]); 
-        copy(tmp, userstring[j]);          
+        strcpy(tmp, userstring[j+1]);
+        strcpy(userstring[j+1], userstring[j]);
+        strcpy(userstring[j], tmp);
       }
     }
   }
