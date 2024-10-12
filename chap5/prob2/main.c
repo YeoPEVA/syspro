@@ -27,6 +27,6 @@ int main(int argc, char *argv[])
 
    total_mb = (double)total/1024;
    
-   printf ("File Name : %s \nFile Size (MB) : %f\nFile Byte : %ld \n", argv[1], total_mb, total);
+   printf ("%s File size : %ld Byte\n", argv[1], total);
    exit(0);
 }

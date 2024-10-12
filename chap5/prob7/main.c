@@ -19,19 +19,19 @@ int main(int argc, char *argv[])
    }
 
    do {
-      printf("수정할 학생의 학번 입력 : ");
+      printf("Enter StudentID to modified:");
       if (scanf("%d", &id) == 1) {
          lseek(fd, (long) (id-START_ID)*sizeof(record), SEEK_SET);
          if ((read(fd, (char *) &record, sizeof(record)) > 0) && (record.id != 0)) {
             printf("StuID:%8d\t Name:%4s\t Score:%4d\n",
                     record.id, record.name, record.score);
-            printf("새로운 점수: ");
+            printf("Enter New Score: ");
             scanf("%d", &record.score);
             lseek(fd, (long) -sizeof(record), SEEK_CUR);
             write(fd, (char *) &record, sizeof(record));
-         } else printf("레코드 %d 없음\n", id);
-      } else printf("입력 오류\n");
-      printf("계속하시겠습니까?(Y/N)");
+         } else printf("Record %d Null\n", id);
+      } else printf("Insert Error\n");
+      printf("Continue?(Y/N)");
       scanf(" %c",&c);
    } while (c == 'Y');
    close(fd);

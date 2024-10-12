@@ -7,48 +7,99 @@
 
 char savedText[10][100];
 
-/* 파일 크기를 계산 한다 */
 int main(int argc, char *argv[]) 
 {
    char buffer[BUFSIZE];
    char buf;
+   char select[10];
+   int selecttoint;
+
    int fd;
-   int n,i;
+   int count1, count2;
+   count1 = 0;
+   count2 = 0;
 
    ssize_t nread;
-   long total = 0;
-   n = 0;
-   i = 0;
+
 
    if ((fd = open(argv[1], O_RDONLY)) == -1){ 
       perror(argv[1]);
       exit(1);
    }
 
-   /* 파일의 끝에 도달할 때까지 반복해서 읽으면서 파일 크기 계산 */
-   while( (nread = read(fd, buffer, BUFSIZE)) > 0)
-      read(fd, &buf, 1);
-      printf("%c", buf);
-      savedText[n][i] = buf;
-      i += 1;
-      if(buf == "\n"){
-        n += 1;
+   while(1){
+      if(read(fd, &buf, 1) > 0){
+         // putchar(buf);
+         savedText[count1][count2] = buf;
+         count2++;
+
+         if(buf == '\n'){
+            savedText[count1][count2] = '\0'; // 문자열의 끝 표시
+            count1 += 1;
+            count2 = 0;
+         }
+      }else{
+         if (count2 > 0) { 
+            savedText[count1][count2] = '\0';  // 문자열의 끝 표시
+            count1 += 1;
+        }
+        break;;
       }
-      total += nread;
+   }
+
+   printf("File read success\n");
+   printf("Total Line : %d\n", count1);
+   printf("You can Choose 1 ~ %d Line\n", count1);
+   printf("pls 'Enter' the line to select : ");
+   
+   scanf("%s", select);
+
+   // 모든 줄
+   if(select[0] == '*'){
+      for(int i = 0; i < count1; i++){
+         printf("%s", savedText[i]);
+      }
+   }
+
+   // 줄 범위 n-m
+   else if(strchr(select, '-') != NULL){
+      int start, end;
+      sscanf(select, "%d-%d", &start, &end);
+      if (start >= 1 && end <= count1 && start <= end) {
+         for(int i = start - 1; i < end; i++){
+            printf("%s", savedText[i]);
+         }
+      } else {
+         printf("Wrong Range.\n");
+      }
+   }
+
+   // 줄 번호 리스트 n,m,..
+   else if(strchr(select, ',') != NULL){
+      char *token = strtok(select, ",");
+      while(token != NULL){
+         int line = atoi(token);
+         if(line >= 1 && line <= count1){
+            printf("%s", savedText[line - 1]);
+         } else {
+            printf("Wrong Line: %d\n", line);
+         }
+         token = strtok(NULL, ",");
+      }
+   }
+
+   // 한 줄 번호
+   else{
+      selecttoint = atoi(select);
+      if (selecttoint >= 1 && selecttoint <= count1) {
+         printf("%s", savedText[selecttoint - 1]);
+      } else {
+         printf("Wrong Line Number.\n");
+      }
+   }
+
+   // printf("\n");
 
    close(fd);
-
-/*
-   for(n = 0; n <10; n++){
-    i = 0;
-    while(1){
-        printf("%c", savedText[n][i]);
-        i+=1;
-        if(buf == "\n"){
-            break;
-        }
-    }
-   }
-*/
    exit(0);
 }
