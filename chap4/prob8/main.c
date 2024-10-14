@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     FILE *fp;
     if(!strcmp(argv[1], "stdin")){
         fp = stdin;
-        printf("Enter one letter.");
+        printf("한 글자 입력: ");
         if(getchar() == EOF) perror("getchar");
     }
     else if(!strcmp(argv[1], "stdout"))
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     }
     else if(getc(fp) == EOF) perror("getc");
 
-    printf("Stream = %s, ", argv[1]);
+    printf("스트림 = %s, ", argv[1]);
 
     if (fp->_flags & _IO_UNBUFFERED)
         printf("버퍼 미사용");
