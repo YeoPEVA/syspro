@@ -5,6 +5,8 @@
 #define _IO_UNBUFFERED 0x0002
 #define _IO_LINE_BUF 0x0200
 
+// Not Work -  Mac OS
+
 int main(int argc, char *argv[])
 {
     FILE *fp;
@@ -26,12 +28,12 @@ int main(int argc, char *argv[])
     printf("Stream = %s, ", argv[1]);
 
     if (fp->_flags & _IO_UNBUFFERED)
-        printf("Unbuffered");
+        printf("버퍼 미사용");
     else if (fp->_flags & _IO_LINE_BUF)
-        printf("Line buffered");
+        printf("줄 버퍼 사용");
     else 
-        printf("Fully buffered");
+        printf("완전 버퍼 사용");
 
-    printf(", Buffer size = %d\n", fp->_IO_buf_end - fp->_IO_buf_base);
+    printf(", 버퍼크기 = %d\n", fp->_IO_buf_end - fp->_IO_buf_base);
     exit(0);
 }
