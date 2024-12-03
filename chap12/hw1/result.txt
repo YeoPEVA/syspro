@@ -1,0 +1,3 @@
+[프로그램 출력 예측]
+Send: [100] Hello from PID 100
+Recv: [1101] Hello from PID 100
